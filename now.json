@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "regions": ["bru"],
+  "build": {
+    "env": {
+      "FONTAWESOME_TOKEN": "@fontawesome-token"
+    }
+  },
+  "builds": [{ "src": "next.config.js", "use": "@now/next" }]
+}
