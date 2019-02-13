@@ -1,4 +1,5 @@
 import React, { Suspense } from 'react'
+import NextError from 'next/error'
 import Layout from '../components/Layout'
 import Hero from '../components/Hero'
 import Cover from '../components/Cover'
@@ -8,7 +9,7 @@ import Link from '../components/Link'
 
 const Playground = React.lazy(() => import('../components/Playground'))
 
-export default function NotFound() {
+export function NotFound() {
   return (
     <Layout title="404">
       <Hero>
@@ -28,4 +29,21 @@ export default function NotFound() {
       </Cover>
     </Layout>
   )
+}
+
+export default class Error extends React.Component {
+  static getInitialProps({ res, err }) {
+    const { statusCode = null } = res || err || {}
+    return { statusCode }
+  }
+
+  render() {
+    const { statusCode } = this.props
+
+    if (statusCode === 404) {
+      return <NotFound />
+    }
+
+    return <NextError statusCode={statusCode} />
+  }
 }
