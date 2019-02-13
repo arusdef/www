@@ -5,7 +5,7 @@ import Portal from './Portal'
 import Div from './Div'
 import Icon from './Icon'
 import Button, { ButtonInner, IconButton } from './Button'
-import { useFocusTrap, useDisableScroll } from '../lib/utils/hooks'
+import { useFocusTrap, useDisableScroll } from '../lib/hooks'
 import { vw, breakpoints, colors, fluidRange } from '../lib/style'
 
 const FocusContext = React.createContext()
