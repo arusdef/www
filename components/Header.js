@@ -46,7 +46,7 @@ export default function Header() {
                       </IconButton>
                       <NavLink to="/">Hem</NavLink>
                       {routes.map(route => (
-                        <NavLink key={route.link} href={route.link}>
+                        <NavLink key={route.link} to={route.link}>
                           {route.title}
                         </NavLink>
                       ))}

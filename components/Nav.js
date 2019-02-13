@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'next/router'
 import styled from 'styled-components'
 import { IconButton } from './Button'
 import Link from './Link'
@@ -10,13 +11,20 @@ export const NavButton = styled(Link)`
   }
 `
 
-function getProps({ href, isPartiallyCurrent }) {
-  return isPartiallyCurrent && href !== '/' ? { 'data-active': true } : null
+function BaseNavLink({ router, ...props }) {
+  const isActive = router.pathname === props.to
+  const isPartiallyActive =
+    router.pathname.includes(props.to) && props.to !== '/'
+  return (
+    <StyledNavLink
+      aria-current={isActive ? 'page' : undefined}
+      data-active={isPartiallyActive || undefined}
+      {...props}
+    />
+  )
 }
 
-export function NavLink(props) {
-  return <StyledNavLink getProps={getProps} {...props} />
-}
+export const NavLink = withRouter(BaseNavLink)
 
 export const StyledNavLink = styled(Link)`
   display: inline-block;
