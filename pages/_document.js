@@ -1,3 +1,4 @@
+import React from 'react'
 import Document from 'next/document'
 import { ServerStyleSheet } from 'styled-components'
 
@@ -13,6 +14,7 @@ export default class MyDocument extends Document {
         })
 
       const initialProps = await Document.getInitialProps(ctx)
+
       return {
         ...initialProps,
         styles: (
