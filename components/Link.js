@@ -3,7 +3,7 @@ import NextLink from 'next/link'
 import styled from 'styled-components'
 import { colors, fontFamily, fluidRange, breakpoints, vw } from '../lib/style'
 
-const StyledLink = styled.a`
+export const StyledLink = styled.a`
   border: none;
   padding: 0;
   margin: 0;

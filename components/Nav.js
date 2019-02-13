@@ -1,17 +1,14 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { withRouter } from 'next/router'
 import styled from 'styled-components'
+import { useSpring, config, animated } from 'react-spring'
 import { IconButton } from './Button'
 import Link from './Link'
-import { colors, easings, breakpoints, fluidRange, vw } from '../lib/style'
+import Icon from './Icon'
+import { useToggle, useFocusTrap, useDisableScroll } from '../lib/hooks'
+import { colors, fluidRange } from '../lib/style'
 
-export const NavButton = styled(Link)`
-  @media ${breakpoints.medium} {
-    display: none;
-  }
-`
-
-function BaseNavLink({ router, ...props }) {
+function RouterLink({ router, ...props }) {
   const isActive = router.pathname === props.to
   const isPartiallyActive =
     router.pathname.includes(props.to) && props.to !== '/'
@@ -24,7 +21,7 @@ function BaseNavLink({ router, ...props }) {
   )
 }
 
-export const NavLink = withRouter(BaseNavLink)
+export const NavLink = withRouter(RouterLink)
 
 export const StyledNavLink = styled(Link)`
   display: inline-block;
@@ -44,30 +41,9 @@ export const StyledNavLink = styled(Link)`
     text-indent: ${fluidRange({ min: 24, max: 32 })};
     background-color: rgba(255, 255, 255, 0.2);
   }
-
-  @media ${breakpoints.medium} {
-    margin-bottom: 0;
-    margin-right: ${vw(40)};
-    font-size: ${vw(20)};
-    font-weight: 500;
-    line-height: normal;
-    text-decoration: underline;
-    color: ${colors.watermelonRed};
-
-    &[aria-current],
-    &[data-active] {
-      transform: none;
-      text-indent: 0;
-      text-decoration: none;
-    }
-
-    &[href='/'] {
-      display: none;
-    }
-  }
 `
 
-export const Nav = styled.nav`
+export const Nav = animated(styled.nav`
   position: fixed;
   z-index: 9;
   top: 0;
@@ -80,13 +56,6 @@ export const Nav = styled.nav`
   align-items: flex-start;
   justify-content: center;
   background-color: ${colors.watermelonRed};
-  transform: none;
-  transition: transform 320ms ${easings.easeOutSine};
-
-  /* &[hidden] {
-    display: flex;
-    transform: translateY(-100%);
-  } */
 
   ${IconButton} {
     position: absolute;
@@ -94,17 +63,59 @@ export const Nav = styled.nav`
     right: ${fluidRange({ min: 24, max: 32 })};
     font-size: ${fluidRange({ min: 32, max: 40 })};
     color: white;
-
-    @media ${breakpoints.medium} {
-      display: none;
-    }
   }
+`)
 
-  @media ${breakpoints.medium} {
-    position: static;
-    flex-direction: row;
-    padding: 0;
-    transform: none;
-    background-color: transparent;
-  }
-`
+export function Navigation({ children }) {
+  const [isOpen, toggle] = useToggle(false)
+
+  const overlayRef = useRef()
+  const contentRef = useRef()
+  useFocusTrap({ overlayRef, contentRef }, isOpen)
+  useDisableScroll(isOpen)
+
+  // const springRef = useRef()
+  const navAnimationStyle = useSpring({
+    // ref: springRef,
+    config: { ...config.stiff, friction: 28 },
+    from: {
+      // opacity: 0,
+    },
+    to: {
+      opacity: isOpen ? 1 : 0,
+      pointerEvents: isOpen ? 'auto' : 'none',
+      transform: isOpen ? 'translate3d(0,0,0)' : 'translate3d(-100%, 0, 0)',
+    },
+  })
+
+  return (
+    <>
+      <Link
+        as="button"
+        type="button"
+        textColor={colors.watermelonRed}
+        onClick={toggle}
+      >
+        meny.
+      </Link>
+      <Nav ref={overlayRef} style={{ ...navAnimationStyle }}>
+        <IconButton
+          type="button"
+          onClick={toggle}
+          textColor="white"
+          aria-label="Stäng meny"
+        >
+          <Icon name={['fal', 'times']} />
+        </IconButton>
+        <ul ref={contentRef}>
+          <li>
+            <NavLink to="/">Hem</NavLink>
+          </li>
+          {React.Children.map(children, child => (
+            <li>{child}</li>
+          ))}
+        </ul>
+      </Nav>
+    </>
+  )
+}

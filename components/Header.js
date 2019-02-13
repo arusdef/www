@@ -2,13 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { Grid, Column } from './Grid'
 import Logo from './Logo'
-import Icon from './Icon'
-import { IconButton } from './Button'
-import Toggle from './Toggle'
 import Link from './Link'
-import MediaQuery from './MediaQuery'
-import { colors, breakpoints, fluidRange, vw } from '../lib/style'
-import { Nav, NavLink, NavButton } from './Nav'
+import { breakpoints, fluidRange, vw } from '../lib/style'
+import { Navigation, NavLink } from './Nav'
 import routes from '../lib/routes'
 
 export default function Header() {
@@ -21,41 +17,13 @@ export default function Header() {
           </LogoLink>
         </Column>
         <Column width="auto">
-          <MediaQuery>
-            {queries => (
-              <Toggle>
-                {({ on, toggle }) => (
-                  <>
-                    {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-                    <NavButton
-                      as="button"
-                      type="button"
-                      textColor={colors.watermelonRed}
-                      onClick={toggle}
-                    >
-                      meny.
-                    </NavButton>
-                    <Nav hidden={!queries.medium ? !on : undefined}>
-                      <IconButton
-                        type="button"
-                        onClick={toggle}
-                        textColor="white"
-                        aria-label="Stäng meny"
-                      >
-                        <Icon name={['fal', 'times']} />
-                      </IconButton>
-                      <NavLink to="/">Hem</NavLink>
-                      {routes.map(route => (
-                        <NavLink key={route.link} to={route.link}>
-                          {route.title}
-                        </NavLink>
-                      ))}
-                    </Nav>
-                  </>
-                )}
-              </Toggle>
-            )}
-          </MediaQuery>
+          <Navigation>
+            {routes.map(route => (
+              <NavLink key={route.link} to={route.link}>
+                {route.title}
+              </NavLink>
+            ))}
+          </Navigation>
         </Column>
       </Grid>
     </StyledHeader>
