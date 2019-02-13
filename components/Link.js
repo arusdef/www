@@ -23,10 +23,14 @@ const StyledLink = styled.a`
   }
 `
 
-export default function Link({ href = '', as, ...props }) {
-  return (
-    <NextLink href={href} as={as} passHref>
-      <StyledLink {...props} />
-    </NextLink>
-  )
+export default function Link({ to, asPath, ...props }) {
+  if (to) {
+    return (
+      <NextLink href={to} as={asPath} passHref>
+        <StyledLink {...props} />
+      </NextLink>
+    )
+  }
+
+  return <StyledLink {...props} />
 }

@@ -16,7 +16,7 @@ export default function Header() {
     <StyledHeader>
       <Grid justifyContent="space-between">
         <Column width="auto">
-          <LogoLink href="/">
+          <LogoLink to="/">
             <Logo />
           </LogoLink>
         </Column>
@@ -44,7 +44,7 @@ export default function Header() {
                       >
                         <Icon name={['fal', 'times']} />
                       </IconButton>
-                      <NavLink href="/">Hem</NavLink>
+                      <NavLink to="/">Hem</NavLink>
                       {routes.map(route => (
                         <NavLink key={route.link} href={route.link}>
                           {route.title}
