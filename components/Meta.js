@@ -1,5 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
+import siteSettings from '../content/settings'
 
 export default function Meta({
   title,
@@ -9,7 +10,6 @@ export default function Meta({
   isArticle,
   children,
 }) {
-  const siteSettings = { social: {} }
   return (
     <Helmet
       htmlAttributes={{ lang: 'sv' }}
