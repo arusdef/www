@@ -84,7 +84,7 @@ export default function Index({ data }) {
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    page: mdx(fields: { slug: { eq: $slug } }) {
+    page: markdownRemark(fields: { slug: { eq: $slug } }) {
       frontmatter {
         title
         excerpt
@@ -101,7 +101,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    cases: allMdx(
+    cases: allMarkdownRemark(
       limit: 5
       filter: {
         fields: { template: { eq: "case" } }
@@ -127,7 +127,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    articles: allMdx(
+    articles: allMarkdownRemark(
       limit: 4
       filter: {
         fields: { template: { eq: "post" } }

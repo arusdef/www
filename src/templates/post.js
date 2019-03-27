@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import dayjs from 'dayjs'
 import Layout from '../components/Layout'
 import Hero from '../components/Hero'
@@ -44,9 +43,7 @@ export default function Article({ data }) {
         )}
         <Section pt={hasCover ? [5, 7] : 0} pb={[5, 8]}>
           <ContentWrapper>
-            <Grid>
-              <MDXRenderer>{data.post.code.body}</MDXRenderer>
-            </Grid>
+            <Grid dangerouslySetInnerHTML={{ __html: data.post.html }} />
           </ContentWrapper>
         </Section>
       </article>
@@ -56,13 +53,11 @@ export default function Article({ data }) {
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    post: mdx(fields: { slug: { eq: $slug } }) {
-      code {
-        body
-      }
+    post: markdownRemark(fields: { slug: { eq: $slug } }) {
       fields {
         slug
       }
+      html
       frontmatter {
         date
         title

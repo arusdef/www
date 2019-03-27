@@ -77,7 +77,7 @@ export default function Career({ data }) {
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    page: mdx(fields: { slug: { eq: $slug } }) {
+    page: markdownRemark(fields: { slug: { eq: $slug } }) {
       frontmatter {
         title
         excerpt
@@ -102,7 +102,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    openPositions: allMdx(
+    openPositions: allMarkdownRemark(
       filter: {
         fileAbsolutePath: { regex: "/open-positions/" }
         frontmatter: { published: { ne: false } }

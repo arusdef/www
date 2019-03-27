@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import Layout from '../components/Layout'
 import Section from '../components/Section'
 import Hero from '../components/Hero'
@@ -58,9 +57,7 @@ export default function Case({ data: { post }, pageContext: { next } }) {
         )}
         <Section pt={[5, 7]} pb={[10, 13]}>
           <ContentWrapper>
-            <Grid>
-              <MDXRenderer>{post.code.body}</MDXRenderer>
-            </Grid>
+            <Grid dangerouslySetInnerHTML={{ __html: post.html }} />
           </ContentWrapper>
 
           <Grid>
@@ -111,13 +108,11 @@ export default function Case({ data: { post }, pageContext: { next } }) {
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    post: mdx(fields: { slug: { eq: $slug } }) {
-      code {
-        body
-      }
+    post: markdownRemark(fields: { slug: { eq: $slug } }) {
       fields {
         slug
       }
+      html
       frontmatter {
         date
         title

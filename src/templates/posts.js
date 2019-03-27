@@ -38,7 +38,7 @@ export default function News({ data }) {
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    page: mdx(fields: { slug: { eq: $slug } }) {
+    page: markdownRemark(fields: { slug: { eq: $slug } }) {
       frontmatter {
         title
         excerpt
@@ -55,7 +55,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    articles: allMdx(
+    articles: allMarkdownRemark(
       filter: {
         fields: { template: { eq: "post" } }
         frontmatter: { published: { ne: false } }

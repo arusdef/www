@@ -6,7 +6,8 @@ module.exports = {
     siteUrl: 'https://beta.strateg.se',
   },
   mapping: {
-    'Mdx.frontmatter.contact_relation': 'Mdx.frontmatter.email',
+    'MarkdownRemark.frontmatter.contact_relation':
+      'MarkdownRemark.frontmatter.email',
   },
   plugins: [
     {
@@ -26,36 +27,37 @@ module.exports = {
     'gatsby-plugin-sharp',
     'gatsby-transformer-sharp',
     'gatsby-transformer-json',
-    {
-      resolve: 'gatsby-mdx',
-      options: {
-        extensions: ['.mdx', '.md'],
-        globalScope: `
-          import EmbedPlayer from "$components/EmbedPlayer";
-          import { Column } from "$components/Grid";
-          import Image from "$components/Image";
-          import Box from "$components/Box";
-          
-          export default { EmbedPlayer, Column, Image, Box };
-        `,
-        hastPlugins: [require('./plugins/rehype-wrap-in-columns')],
-        mdPlugins: [
-          require('remark-unwrap-images'),
-          require('remark-external-links'),
-        ],
-        gatsbyRemarkPlugins: [
-          {
-            resolve: 'gatsby-remark-relative-images',
-            options: {
-              name: 'media',
-            },
-          },
-          {
-            resolve: require.resolve('./plugins/gatsby-remark-image-component'),
-          },
-        ],
-      },
-    },
+    'gatsby-transformer-remark',
+    // {
+    //   resolve: 'gatsby-mdx',
+    //   options: {
+    //     extensions: ['.mdx', '.md'],
+    //     globalScope: `
+    //       import EmbedPlayer from "$components/EmbedPlayer";
+    //       import { Column } from "$components/Grid";
+    //       import Image from "$components/Image";
+    //       import Box from "$components/Box";
+
+    //       export default { EmbedPlayer, Column, Image, Box };
+    //     `,
+    //     hastPlugins: [require('./plugins/rehype-wrap-in-columns')],
+    //     mdPlugins: [
+    //       require('remark-unwrap-images'),
+    //       require('remark-external-links'),
+    //     ],
+    //     gatsbyRemarkPlugins: [
+    //       {
+    //         resolve: 'gatsby-remark-relative-images',
+    //         options: {
+    //           name: 'media',
+    //         },
+    //       },
+    //       {
+    //         resolve: require.resolve('./plugins/gatsby-remark-image-component'),
+    //       },
+    //     ],
+    //   },
+    // },
     {
       resolve: 'gatsby-plugin-layout',
       options: {

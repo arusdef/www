@@ -1,6 +1,5 @@
 import React from 'react'
 import { graphql } from 'gatsby'
-import MDXRenderer from 'gatsby-mdx/mdx-renderer'
 import Layout from '../components/Layout'
 import Hero from '../components/Hero'
 import Section from '../components/Section'
@@ -26,9 +25,7 @@ export default function Standard({ data }) {
         </Cover>
       )}
       <Section pt={hasCover ? [5, 7] : 0} pb={[5, 8]}>
-        <Grid>
-          <MDXRenderer>{data.page.code.body}</MDXRenderer>
-        </Grid>
+        <Grid dangerouslySetInnerHTML={{ __html: data.page.html }} />
       </Section>
     </Layout>
   )
@@ -36,7 +33,8 @@ export default function Standard({ data }) {
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    page: mdx(fields: { slug: { eq: $slug } }) {
+    page: markdownRemark(fields: { slug: { eq: $slug } }) {
+      html
       frontmatter {
         title
         excerpt
@@ -51,9 +49,6 @@ export const pageQuery = graphql`
             }
           }
         }
-      }
-      code {
-        body
       }
     }
   }

@@ -139,7 +139,7 @@ export default function Case({ data, location }) {
 
 export const pageQuery = graphql`
   query($slug: String!) {
-    page: mdx(fields: { slug: { eq: $slug } }) {
+    page: markdownRemark(fields: { slug: { eq: $slug } }) {
       frontmatter {
         title
         excerpt
@@ -156,7 +156,7 @@ export const pageQuery = graphql`
         }
       }
     }
-    cases: allMdx(
+    cases: allMarkdownRemark(
       filter: {
         fields: { template: { eq: "case" } }
         frontmatter: { published: { ne: false } }

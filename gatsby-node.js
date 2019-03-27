@@ -59,7 +59,7 @@ exports.createPages = async ({ actions, graphql }) => {
 
   const result = await graphql(`
     {
-      allMdx(
+      allMarkdownRemark(
         sort: { order: DESC, fields: [frontmatter___date] }
         filter: {
           frontmatter: { published: { ne: false } }
@@ -88,7 +88,7 @@ exports.createPages = async ({ actions, graphql }) => {
     throw Error(result.errors)
   }
 
-  const { edges } = result.data.allMdx
+  const { edges } = result.data.allMarkdownRemark
 
   // Pages
   const pages = edges.filter(
@@ -159,7 +159,7 @@ exports.onCreateNode = ({ node, actions, getNode }) => {
   const { createNodeField } = actions
   fmImagesToRelative(node)
 
-  if (node.internal.type === 'Mdx') {
+  if (node.internal.type === 'Mdx' || node.internal.type === 'MarkdownRemark') {
     const { relativePath } = getNode(node.parent)
     const { redirect_from: redirectFrom, permalink } = node.frontmatter
     let { template = 'standard' } = node.frontmatter
